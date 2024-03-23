@@ -17,68 +17,10 @@ class LeNet(nn.Module):
         super(LeNet, self).__init__()
         # certain definitions
 
-        self.input_shape = input_shape
-        self.num_classes = num_classes
-
-        #1.
-        self.CNN_1 = nn.Conv2d(in_channels = 3, out_channels = 6, kernel_size = 5, stride = 1)
-        self.ReLU_1 = nn.ReLU()
-        self.Pool_1 = nn.MaxPool2d(kernel_size = 2, stride = 2)
-
-        #2.
-        self.CNN_2 = nn.Conv2d(in_channels = 6, out_channels = 16, kernel_size = 5, stride = 1)
-        self.ReLU_2 = nn.ReLU()
-        self.Pool_2 = nn.MaxPool2d(kernel_size = 2, stride = 2)
-
-        #3.
-        self.Flatten = nn.Flatten()
-
-        #4.
-        self.Layer_1 = nn.Linear(in_features = 16*5*5, out_features = 256)
-        self.ReLU_3 = nn.ReLU()
-
-        #5.
-        self.Layer_2 = nn.Linear(in_features = 256, out_features = 128)
-        self.ReLU_4 = nn.ReLU()
-
-        #6.
-        self.Layer_3 = nn.Linear(in_features = 128, out_features = num_classes)
-        
     def forward(self, x):
-        shape_dict = {1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        shape_dict = {}
         # certain operations
-
-        #1.
-        x = self.CNN_1(x)
-        x = self.ReLU_1(x)
-        x = self.Pool_1(x)
-        shape_dict[1] = list(x.shape)
-
-        #2.
-        x = self.CNN_2(x)
-        x = self.ReLU_2(x)
-        x = self.Pool_2(x)
-        shape_dict[2] =	list(x.shape)
-
-        #3.
-        x = self.Flatten(x)
-        shape_dict[3] = list(x.shape)
-
-        #4.
-        x = self.Layer_1(x)
-        shape_dict[4] = list(x.shape)
-        x = self.ReLU_3(x)
-
-        #5.
-        x = self.Layer_2(x)
-        shape_dict[5] = list(x.shape)
-        x = self.ReLU_4(x)
-
-        #6.
-        x = self.Layer_3(x)
-        shape_dict[6] = list(x.shape)
-        
-        return x, shape_dict
+        return out, shape_dict
 
 
 def count_model_params():
@@ -88,11 +30,6 @@ def count_model_params():
     model = LeNet()
     model_params = 0.0
 
-    for name, parameter in model.named_parameters():
-        model_params += parameter.numel()
-
-    model_params = model_params/1000000
-    
     return model_params
 
 
